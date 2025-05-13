@@ -1,11 +1,25 @@
 services:
   - type: web
-    name: parlay-backend            # Appears in Render dashboard & URL
-    env: python                     # Tells Render to use its Python setup
-    plan: free                      # Stays on the perpetual free tier
-    region: oregon                  # Choose your closest region (optional)
-    branch: main                    # Auto-deploy on every push to main
+    name: parlay-backend          # Shows in Render dashboard & URL sub-domain
+    env: python                   # Use Render’s managed Python runtime
+    plan: free                    # Free tier (spins down when idle)
+    region: oregon                # Pick the region closest to most users
+    branch: main                  # Auto-deploy on every push to main
+
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /docs          # Mark service healthy when swagger loads
-    autoDeploy: true
+
+    # Mark service healthy once the Swagger page is reachable
+    healthCheckPath: /docs
+
+    # NEW — publish any static files in repo root (e.g. privacy.html, tos.html)
+    staticPublishPath: .
+
+    # (Optional) add or remove keys in Render dashboard → Environment
+    envVars:
+      - key: ODDS_API_KEY
+        sync: false               # leave `false`; Render injects the value
+      - key: DFS_PROJ_API_KEY
+        sync: false
+
+    autoDeploy: true              # Redeploy on every Git push
