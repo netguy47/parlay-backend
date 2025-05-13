@@ -1,0 +1,15 @@
+# --- Core web framework ---
+fastapi==0.111.0
+uvicorn[standard]==0.29.0        # ASGI server
+
+# --- Data and modelling (handy for the next upgrades) ---
+pydantic==2.7.1                  # request/response models
+requests==2.32.3                 # call external odds/stat APIs
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.4.2              # probability model
+python-multipart==0.0.7          # file upload support (optional)
+
+# --- Caching / env helpers you’ll likely use soon ---
+redis==5.0.4                     # if you add Redis caching
+python-dotenv==1.0.1             # local `.env` file parsing
