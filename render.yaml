@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: parlay-backend            # Appears in Render dashboard & URL
+    env: python                     # Tells Render to use its Python setup
+    plan: free                      # Stays on the perpetual free tier
+    region: oregon                  # Choose your closest region (optional)
+    branch: main                    # Auto-deploy on every push to main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /docs          # Mark service healthy when swagger loads
+    autoDeploy: true
